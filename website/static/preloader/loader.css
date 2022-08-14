@@ -1,0 +1,76 @@
+.loader {
+  margin-top: -5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding: 5px;
+  height: 100%;
+  position: fixed;
+  transition: opacity 0.5s ease;
+  background: rgb(240, 240, 240);
+  z-index: 4;
+}
+.preloadermain,
+.preloadermain1 {
+  margin-bottom: 10px;
+  padding: 30px 15px;
+  border-radius: 5px;
+  background: white;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.preloader01,
+.preloader02,
+.preloader03 {
+  background: rgb(235, 235, 235);
+  height: 3rem;
+  margin: 10px 0;
+  border-radius: 20px;
+}
+.precircle {
+  display: none;
+  margin: 10px 0;
+  background: rgb(235, 235, 235);
+  width: 4rem;
+  height: 4rem;
+  border-radius: 20px;
+}
+.preloader01 {
+  width: 100%;
+  animation: opacit 0.8s 0.4s linear infinite alternate;
+}
+.preloader02 {
+  width: 100%;
+  animation: opacit 0.8s 0.5s linear infinite alternate;
+}
+.preloader03 {
+  width: 100%;
+  animation: opacit 0.8s 0.6s linear infinite alternate;
+}
+@keyframes opacit {
+  0% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.disappear {
+  animation: wipe 1s forwards;
+}
+@keyframes wipe {
+  100% {
+    opacity: 0.2;
+    visibility: hidden;
+  }
+}
+@media screen and (max-width: 768px) {
+  .loader {
+    width: 100%;
+  }
+}
