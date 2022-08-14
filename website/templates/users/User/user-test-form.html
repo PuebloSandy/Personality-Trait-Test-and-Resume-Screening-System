@@ -1,0 +1,212 @@
+{% extends "/users/User/user-base.html" %}
+{% block content %}
+    <div class="desktop">
+        <!--preloader-->
+        <div class="loader mt-3">
+            <div class="preloadermain">
+                <div class="precircle"></div>
+                <div class="preloader01"></div>
+                <div class="preloader02"></div>
+                <div class="preloader03"></div>
+                <div class="preloader03"></div>
+            </div>
+        </div>
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-dark sticky-top " id="navbar">
+            <div class="container">
+                <a class="navbar-brand fw-bold text-uppercase fs-3" href="/user-homepage">Perso<small class="fw-bold fs-3" style="color: #24b194;">nality</small></a>
+                <!-- MOBILE TOGGLE -->
+                <button class="navbar-toggler m-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span><i class="fas fa-bars"></i></span>
+                </button>
+                <div class="collapse navbar-collapse text-uppercase fw-bold" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <!-- Test -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="/user_test_form"><span class="ml-2 mr-2">Test</span></a>
+                        </li>
+                        <!-- File Resume -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="/user_files_resume"><span class="ml-2 mr-2">File</span></a>
+                        </li>
+                        <!-- Result Meaning -->
+                        {% if result == None or result == none %}
+                        <li class="nav-item mx-0 mx-lg-1">
+                            
+                        </li>
+                        {% else %}
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="/user_result_meaning"><span class="ml-2 mr-2">Result</span></a>
+                        </li>
+                        {% endif %}
+                        <!-- logout -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <div class="dropdown mt-0">
+                                <button class="btn btn-secondary border-0 dropdown-toggle btn-nav-user" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">
+                                    <img src="{{ url_for('static', filename='/images/vector/man.png') }}" style="width: 35px; height: 30px;">
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1" style="background-color: whitesmoke;">
+                                  <!--<li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#cancelprofile"><img src="{{ url_for('static', filename='/images/vector/user-circle.png') }}" style="width: 25px; height: 20px;">  Profile</a></li>-->
+                                  <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutmodal"><img src="{{ url_for('static', filename='/images/vector/sign-out.png') }}" style="width: 25px; height: 20px;">  Sign-out</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- END OF NAVBAR -->
+
+        <!-- Content -->
+        <div class="container mt-5">
+            <div class="row">
+                <!-- Message -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    {% if category == 'error' %}
+                    <div class="alert alert-danger alter-dismissable fade show mt-2 mb-3" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-success alter-dismissable fade show mt-2 mb-3" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                {% endif %}
+                {% endwith %}
+                <!-- End of Messages -->
+                <div class="col" id="testformimg">
+                    <img src="{{ url_for('static', filename='/images/vector/test-form.jpg') }}" class="img-thumbnail border-0">
+                </div>
+                <div class="col mt-3 mb-5">
+                    {% if row == 0 %}
+                        <form action="/user_test_form_enter/{{user.id}}" method="POST">
+                            <input type="hidden" name="userid" value="{{user.id}}">
+                            <div class="col text-dark mt-2">
+                                <div class="" align="center">
+                                    <h1 class="text-center text-dark"> 
+                                        <p class="text-uppercase fw-bold" style="color: #004042;">Personality</p>
+                                        <p class="text-uppercase fw-bold" style="color: #24b194;">Survey Information</p>
+                                    </h1>
+                                </div>
+                                <div class="container mt-4">
+                                    <div class="mid row justify-content-center mt-4">
+                                        <!-- Quiz Date Taken -->
+                                        <div class="row mb-3 justify-content-center h4">
+                                            <label class="col-sm-5 fw-bold col-form-label text-secondary">Date Taken:</label>
+                                            <div class="col-sm-5">
+                                            <input type="text" name="date" value="0" class="form-control-plaintext text-center text-secondary h4" autocomplete="off" readonly/>
+                                            </div>
+                                        </div>
+                                        <!-- Quiz Time start -->
+                                        <div class="row mb-3 justify-content-center h4">
+                                            <label class="col-sm-5 fw-bold col-form-label text-secondary">Time Start:</label>
+                                            <div class="col-sm-5">
+                                            <input type="text" name="time" value="0" class="form-control-plaintext text-center text-secondary h4" autocomplete="off" readonly/>
+                                            </div>
+                                        </div>
+                                        <!-- Quiz Time End -->
+                                        <div class="row mb-3 justify-content-center h4">
+                                            <label class="col-sm-5 fw-bold col-form-label text-secondary">Time End:</label>
+                                            <div class="col-sm-5">
+                                            <input type="text" name="time" value="0" class="form-control-plaintext text-center text-secondary h4" autocomplete="off" readonly/>
+                                            </div>
+                                        </div>
+                            
+                                    </div>
+                                        <div class="buttons mt-4" align="center">
+                                            <button type="submit" class="btn btn-success border-0" style="background-color: #24b194; font-size:1.4rem; font-weight:600;">Start Survey</button>
+                                        </div></br>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        {% else %}
+                        <form action="/user_test_form_restart" method="POST">
+                            <input type="hidden" name="userid" value="{{user.id}}">
+                            <input type="hidden" name="row_id" value="{{row.id}}">
+                            <input type="hidden" name="traitfinal_id" value="{{traitfinal.id}}">
+                            <input type="hidden" name="resusmefinal_id" value="{{resumefinal.id}}">
+                            <div class="col text-dark mt-2">
+                                <div class="" align="center">
+                                    <h1 class="text-center text-dark"> 
+                                        <p class="text-uppercase" style="color: #004042;">Personality</p>
+                                        <p class="text-uppercase" style="color: #24b194;">Survey Information</p>
+                                    </h1>
+                                </div>
+                                <div class="container mt-4">
+                                    <div class="mid row justify-content-center mt-4">
+                                        <!-- Quiz Date Taken -->
+                                        <div class="row mb-3 justify-content-center h4">
+                                            <label class="col-sm-5 fw-bold col-form-label text-secondary">Date Taken:</label>
+                                            <div class="col-sm-5">
+                                            <input type="text" name="date" value="{{row.date}}" class="form-control-plaintext text-center text-secondary h4" autocomplete="off" readonly/>
+                                            </div>
+                                        </div>
+                                        <!-- Quiz Time start -->
+                                        <div class="row mb-3 justify-content-center h4">
+                                            <label class="col-sm-5 fw-bold col-form-label text-secondary">Time Start:</label>
+                                            <div class="col-sm-5">
+                                            <input type="text" name="time" value="{{row.time_started}}" class="form-control-plaintext text-center text-secondary h4" autocomplete="off" readonly/>
+                                            </div>
+                                        </div>
+                                        <!-- Quiz Time End -->
+                                        <div class="row mb-3 justify-content-center h4">
+                                            <label class="col-sm-5 fw-bold col-form-label text-secondary">Time End:</label>
+                                            <div class="col-sm-5">
+                                            <input type="text" name="time" value="{{row.time_ended}}" class="form-control-plaintext text-center text-secondary h4" autocomplete="off" readonly/>
+                                            </div>
+                                        </div>
+                            
+                                    </div>
+                                        <div class="buttons mt-4" align="center">
+                                            <button type="submit" class="btn btn-success border-0" style="background-color: #24b194; font-size:1.4rem; font-weight:600;">Restart Survey</button>
+                                        </div></br>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- End of Content -->
+
+        <!-- User Logout MODAL-->
+        <div class="container container-fluid">
+            <div class="modal fade" id="logoutmodal" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Sign-out</h5></h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="/logout" method="POST">
+                            <center>
+                                <input type="hidden" name="id" value="{{user.id}}">
+
+                                <div class="modal-body">
+                                    Sign-out! 
+                                    Are you sure you want to Sign-out?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <button type="submit" class="btn btn-success">Yes</button>
+                                </div>                     
+                            </center>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--END OF user logout MODAL-->
+    </div>
+{% endblock %}

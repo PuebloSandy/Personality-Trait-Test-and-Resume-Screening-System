@@ -1,0 +1,297 @@
+{% extends "/users/Admin/Admin-base.html" %}
+{% block content %}
+    <div class="mobile">
+        <h1>📴</h1>
+        <h2 class="ml-3 text-center">Unavailable for Mobile Device..</h2>
+        <h3></h3>
+    </div>
+    <div class="desktop">
+        <!--preloader-->
+        <div class="loader mt-3">
+            <div class="preloadermain">
+                <div class="precircle"></div>
+                <div class="preloader01"></div>
+                <div class="preloader02"></div>
+                <div class="preloader03"></div>
+                <div class="preloader03"></div>
+            </div>
+        </div>
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-dark sticky-top " id="navbar">
+            <div class="container">
+                <a class="navbar-brand fw-bold text-uppercase fs-3" href="/admin-homepage">Perso<small class="fw-bold fs-3" style="color: #24b194;">nality</small></a>
+                <!-- MOBILE TOGGLE -->
+                <button class="navbar-toggler m-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span><i class="fas fa-bars"></i></span>
+                </button>
+                <div class="collapse navbar-collapse text-uppercase fw-bold" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <!-- Company -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="admin-company"><span class="ml-2 mr-2">Company</span></a>
+                        </li>
+                        <!-- Company Term Area -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="admin-term"><span class="ml-2 mr-2">Term Area</span></a>
+                        </li>
+                        <!-- Users -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="admin_users_account"><span class="ml-2 mr-2">Users</span></a>
+                        </li>
+                        <!-- User Result -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="admin_users_results"><span class="ml-2 mr-2">User Results</span></a>
+                        </li>
+                        <!-- logout -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <div class="dropdown mt-0">
+                                <button class="btn btn-secondary border-0 dropdown-toggle btn-nav-user" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">
+                                    <img src="{{ url_for('static', filename='/images/vector/man.png') }}" style="width: 35px; height: 30px;">
+                                </button>
+                                <ul class="dropdown-menu mr-auto dropdown-menu-end" aria-labelledby="dropdownMenuButton1" style="background-color: whitesmoke;">
+                                  <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#cancelprofile"><img src="{{ url_for('static', filename='/images/vector/user-circle.png') }}" style="width: 25px; height: 20px;">  Profile</a></li>
+                                  <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutmodal"><img src="{{ url_for('static', filename='/images/vector/sign-out.png') }}" style="width: 25px; height: 20px;">  Sign-out</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- END OF NAVBAR -->
+
+        <!-- Content -->
+        <div class="container bg-light border rounded mt-5 mb-5">
+            <!-- Message -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                {% if category == 'error' %}
+                <div class="alert alert-danger alter-dismissable fade show mt-2 mb-3" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% else %}
+                <div class="alert alert-success alter-dismissable fade show mt-2 mb-3" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <!-- End of Messages -->
+            <div class="row mt-4">
+                <div class="col text-center mt-4 mb-2">
+                    <span class="fs-1 text-uppercase fw-bold" style="color: #24b194; cursor: default;">Term Area</span>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col mb-5">
+                    <div class="border-bottom">
+                        <div class="mt-3 mb-3">
+                            <div class="text-light" align="right">
+                                <button type="button" class="btn btn-success fas fa-clipboard" id="myBtn"> Add</button>
+                                <button type="button" class="btn btn-danger fas fa-trash" id="myBtnDelAll"> Delete</button>
+                            </div>     
+                        </div>                    
+                    </div>
+                    <div class="mt-3 mb-1">
+                        <table class="table table-striped" id="table_term" width="100%">
+                            <thead class="text-white">
+                              <tr>
+                                <th scope="col" hidden><center>ID No.</center></th>
+                                <th scope="col"><center>Term Name</center></th>
+                                <th scope="col"><center>Term Under</center></th>
+                                <th scope="col" width="10%"><center>Edit</center></th>
+                                <th scope="col" width="10%"><center>Delete</center></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% for term in ter %}
+                                <tr>
+                                    <td id="KeyValuesRemove" onchange="passKeyToBeDeleted()" hidden><center>{{term.id}}<center></td>
+                                    <td ><center>{{term.term_name}}</center></td>
+                                    <td ><center>{{term.term_under}}</center></td>
+                                    <td><a href="/update_term/{{term.id}}" class="btn btn-warning text-light btn-xs fas fa-edit" data-toggle="modal" data-target="#modaledit{{term.id}}"> Edit</a></td> 
+                                    <td><a href="/delete_term/{{term.id}}" class="btn btn-danger btn-xs fas fa-trash-alt" data-toggle="modal" data-target="#deletemodal{{term.id}}"> Delete</a></td>
+                                    <!--<td width="9%"><center><button type="button" title="Edit" class="fas fa-edit btn rounded btn-success" data-toggle="modal" data-target="#editmodal" onclick="return confirm('Are You Sure To Delete ?')"> Update</button></center></td>
+                                    <td width="9%"><center><button type="button" title="Delete" class="fas fa-trash-alt btn rounded btn-danger" data-toggle="modal" data-target="#deletemodal"> Delete</button></center></td>  -->           
+                                </tr>
+
+                                <!-- Update Term Area -->
+                                <div class="modal fade" id="modaledit{{term.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Update Term Area</h5>
+                                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form action="/update_term" method="POST"> 
+                                                <div class="modal-body">
+                                                    <input type="hidden" name="id" value="{{term.id}}">
+                                                    <div class="form-group">
+                                                        <label>Term Name</label>
+                                                        <input type="text" name="term_name" value="{{term.term_name}}" id="term_name" class="form-control text-center" placeholder="Enter Term Name" autocomplete="off" required/>
+                                                    </div>
+                                
+                                                    <div class="form-group">
+                                                        <label for="term_under">Term Under</label>
+                                                        <select class="form-control text-center custom-select p-1" name="term_under" value="{{term.term_under}}" id="term_under" required>
+                                                            <option value="0">Select Term Under...</option>
+                                                            <option class="text-center" value="Quality/Six_Sigma">Quality/Six Sigma</option>
+                                                            <option class="text-center" value="Operations_management">Operations management</option>
+                                                            <option class="text-center" value="Supply_chain">Supply chain</option>
+                                                            <option class="text-center" value="Project_management">Project management</option>   
+                                                            <option class="text-center" value="Data_analytics">Data analytics</option>
+                                                            <option class="text-center" value="Healthcare">Healthcare</option> 
+                                                        </select>	
+                                                    </div>
+                                
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-success">Save</button>
+                                                    </div>
+                                                </div> 
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End of Update Term Area Modal -->
+
+                                <!-- DELETE Term Under MODAL-->
+                                <div class="container container-fluid">
+                                    <div class="modal fade" id="deletemodal{{term.id}}" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Delete Term Area</h5>
+                                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                                <form action="/delete_term" method="POST">
+                                                    <center>
+                                                        <div class="modal-body">
+                                                            <input type="hidden" name="id" value="{{term.id}}">
+                                                            The data will be deleted! 
+                                                            Are you sure you want to delete Term Area?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                                            <button type="submit" class="btn btn-success">Yes</button>
+                                                        </div>                     
+                                                    </center>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--END OF DELETE Term Under Modal -->
+
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--add Company-->
+        <div class="modal fade" id="addmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Add Term Area</h5>
+                  <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/add-term" method="POST"> 
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="term_name">Term Name</label>
+                            <input type="text" name="term_name" id="term_name" class="form-control text-center" placeholder="Enter Term Name" autocomplete="off" required/>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="term">Term Under</label>
+                            <select class="form-control text-center custom-select p-1" name="term_under" id="term" required>
+                                <option value="0">Select Term Under...</option>
+                                <option class="text-center" value="Quality/Six_Sigma">Quality/Six Sigma</option>
+                                <option class="text-center" value="Operations_management">Operations management</option>
+                                <option class="text-center" value="Supply_chain">Supply chain</option>
+                                <option class="text-center" value="Project_management">Project management</option>   
+                                <option class="text-center" value="Data_analytics">Data analytics</option>
+                                <option class="text-center" value="Healthcare">Healthcare</option> 
+                            </select>	
+                        </div>
+    
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </div> 
+                </form>
+              </div>
+            </div>
+        </div>
+        <!-- End of Add Company Modal -->
+
+        <!-- DELETE All Term Area MODAL-->
+        <div class="container container-fluid">
+            <div class="modal fade" id="deleteallmodal" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete All Term Area</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                        <form action="/delete_all_term" method="POST">
+                            <center>
+                                <div class="modal-body">
+                                    The data will be deleted! 
+                                    Are you sure you want to delete All Term Area?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <button type="submit" class="btn btn-success">Yes</button>
+                                </div>                     
+                            </center>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--END OF DELETE All Term Area Modal -->
+
+        <!-- User Logout MODAL-->
+        <div class="container container-fluid">
+            <div class="modal fade" id="logoutmodal" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Sign-out</h5>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="/logout" method="POST">
+                            <center>
+                                <input type="hidden" name="id" value="">
+
+                                <div class="modal-body">
+                                    Sign-out! 
+                                    Are you sure you want to Sign-out?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <button type="submit" class="btn btn-success">Yes</button>
+                                </div>                     
+                            </center>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--END OF user logout MODAL-->
+    </div>
+{% endblock %} 

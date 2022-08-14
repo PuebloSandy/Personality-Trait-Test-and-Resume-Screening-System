@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- Wmsu-Icon -->
+	<link rel="icon" href="{{ url_for('static', filename='/images/personality-icon.png') }}">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!-- BOOTSTRAP -->
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css"/>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"/>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
+	<!-- OFFLINE BOOTSTRAP -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='/bootstrap/bootstrap-4.6.1-dist/css/bootstrap.min.css') }}" />
+	<!-- fontawesome -->
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+	<!-- DATATABLE -->
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/dataTables.bootstrap4.min.css" /> 
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<!-- local css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/index.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='/preloader/loader.css') }}" />
+	<title>Personality Survey Test</title>
+</head>
+<body id="page-top">
+    <div class="desktop">
+        <!--preloader-->
+        <div class="loader mt-5">
+            <div class="preloadermain">
+                <div class="precircle"></div>
+                <div class="preloader01"></div>
+                <div class="preloader02"></div>
+                <div class="preloader03"></div>
+                <div class="preloader03"></div>
+                <div class="preloader03"></div>
+            </div>
+        </div>
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-dark sticky-top " id="navbar">
+            <div class="container">
+                <a class="navbar-brand fw-bold text-uppercase fs-3" href="#page-top">Perso<small class="fw-bold fs-3" style="color: #24b194;">nality</small></a>
+                <!-- MOBILE TOGGLE -->
+                <button class="navbar-toggler m-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span><i class="fas fa-bars"></i></span>
+                </button>
+                <div class="collapse navbar-collapse text-uppercase fw-bold" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <!-- Register info -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="#info"><span class="ml-2 mr-2">Info</span></a>
+                        </li>
+                        <!-- about -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="#about"><span class="ml-2 mr-2">About</span></a>
+                        </li>
+                        <!-- logout -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="#" data-toggle="modal" data-target="#sign-in-Modal"><span class="ml-2 mr-2">Sign-in</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- END OF NAVBAR -->
+        
+        <!-- Masthead-->
+        <div class="masthead text-white text-center" style="background-color: #24b194;">
+            <!-- Message -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                {% if category == 'error' %}
+                <div class="alert alert-danger alter-dismissable fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% else %}
+                <div class="alert alert-success alter-dismissable fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <!-- End of Messages -->
+            <div class="container d-flex align-items-center flex-column">
+                <!-- Masthead Avatar Image-->
+                <img class="masthead-avatar mt-5 mb-5" src="{{ url_for('static', filename='/images/personality-icon.png') }}" alt="..." />
+                <!-- Masthead Heading-->
+                <span class="masthead-heading text-uppercase fw-bold mb-0" style="font-size: 3.8rem;">Take Personality Trait Survey</span>
+                <!-- Icon Divider-->
+                <div class="divider-custom divider-light">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+                <!-- Masthead Subheading-->
+                <p class="masthead-subheading fs-4 font-weight-light mt-2 mb-5">See's the rate What kind of Personality Trait you have.</p>
+            </div>
+        </div>
+        <!-- Register Information -->
+        <footer class="footer info" id="info" style="background-color: #cefad0;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 mt-4 mb-3">
+                        <div class="border bg-light rounded-3 text-center mt-1 mb-3">
+                            <span class="round-reg mt-3 mb-2">
+                                <p class="mt-3 text-white">1</p>
+                            </span>
+                            <div class="mt-1 mb-1">
+                                <span class="text-uppercase fw-bold fs-5" style="color: #24b194;">Info First</span>
+                            </div>
+                            <div class="text-justify mt-2 mb-4 ml-5 mr-5">
+                                <span class="bg-light">
+                                    Before Register Prepare your Resume PDF File Soft Copy. 
+                                    It need to the register form for your information. If you don't have any Resume File yet you can create one below.
+                                </span><br><br><br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mt-4 mb-3">
+                        <div class="border bg-light rounded-3 text-center mt-1 mb-3">
+                            <span class="round-reg mt-3 mb-2">
+                                <p class="mt-3 text-white">2</p>
+                            </span>
+                            <div class="mt-1 mb-1">
+                                <span class="text-uppercase fw-bold fs-5" style="color: #24b194;">Register</span>
+                            </div>
+                            <div class="text-justify mt-2 mb-2 ml-5 mr-5">
+                                <span>
+                                    Click the Sign-In button on the top or you can click here in the buttom. 
+                                    Before fillup in your information in the textbox please check first your information before clicking the submit button.
+                                </span>
+                            </div>
+                            <div class="mb-3 ml-5 mr-5">
+                                <a href="/register" class="btn btn-secondary btn-lg btn-block border-0 text-white" style="background-color: #24b194;">Register</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mt-4 mb-3">
+                        <div class="border bg-light rounded-3 text-center mt-1 mb-3">
+                            <span class="round-reg mt-3 mb-2">
+                                <p class="mt-3 text-white">3</p>
+                            </span>
+                            <div class="mt-1 mb-1">
+                                <span class="text-uppercase fw-bold fs-5" style="color: #24b194;">login</span>
+                            </div>
+                            <div class="text-justify mt-2 mb-2 ml-5 mr-5">
+                                <span>
+                                    After Register, Sign-In your account in the site and take the test form inside.
+                                </span>
+                                <br>
+                            </div>
+                            <div class="mb-3 ml-5 mr-5">
+                                <br><br><br>
+                                <a href="#" data-toggle="modal" data-target="#sign-in-Modal" class="btn btn-secondary btn-lg btn-block border-0 text-white" style="background-color: #24b194;">Sign-In</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Resume Section-->
+        <footer class="footer text-white" id="about" style="background-color: #24b194;">
+            <div class="container">
+                <!-- About Section Heading-->
+                <div class="">
+                </div>
+                <!-- About Section Content
+                <div class="row">
+                    <div class="col-lg-6 ms-auto mb-5">
+                        <h4><center>Create Resume</center></h4>
+                        <p class="lead text-center">You can create Resume File here if you don't have yet.</p>
+                        <center><a class="btn btn-primary btn-lg" href="/create_resume_file">Create</a></center>
+                    </div>
+                    <div class="col-lg-6 me-auto mb-5">
+                        <h4><center>Convert Resume</center></h4>
+                        <p class="lead text-center">You can convert your Resume Docx into PDF File here.</p>
+                        <center><a class="btn btn-primary btn-lg" href="/convert_resume_file_page">Convert</a></center>
+                    </div>
+                </div>-->
+            </div>
+        </footer>
+
+        <!-- About Section-->
+        <section class="page-section text-dark" id="about" style="background-color: #cefad0;">
+            <div class="container">
+                <!-- About Section Heading-->
+                <div class=""><br>
+                    <h2 class="page-section-heading text-center text-uppercase text-dark">About</h2>
+                </div>
+                <!-- Icon Divider-->
+                <div class="divider-custom divider-light">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><center><i class="fas fa-star"></i></center></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+                <!-- About Section Content-->
+                <div class="row">
+                    <div class="col text-center ms-auto mb-5">
+                        <p class="lead">This website is to check what kind of Personality Traits you have.</p>
+                    </div>
+                    <div class="col text-center me-auto mb-5">
+                        <p class="lead">Take a Quick Survey by Logging in the site.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="footer text-center text-light" style="background-color: #24b194;">
+            <div class="container">
+                <div class="row">
+                    <!-- Footer Location-->
+                    <div class="col-lg-6 mt-5 mb-5">
+                        <h4 class="text-uppercase text-light fw-bold mb-4">Location</h4>
+                        <p class="lead mb-0">
+                            B.Agustin Drive
+                            <br />
+                            Divisoria, Zamboanga City
+                        </p>
+                    </div>
+                    <!-- Footer About Text-->
+                    <div class="col-lg-6 mt-5 mb-5">
+                        <h4 class="text-uppercase text-light fw-bold mb-4">Company</h4>
+                        <p class="lead mb-0">
+                            LMA Construction Architectural Design and Services.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Copyright Section-->
+        <div class="copyright py-4 text-center text-white">
+            <div class="container fs-5"><small>Copyright &copy; Personality Traits 2022</small></div>
+        </div>
+
+        <!-- Sign-in Modal -->
+        <div class="portfolio-modal modal fade" id="sign-in-Modal" tabindex="-1" aria-labelledby="portfolioModal1" aria-hidden="true">
+            <div class="modal-dialog modal-2">
+                <div class="modal-content">
+                    <div class="modal-header border-0"><button class="btn-close" type="button" data-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-body text-center pb-3">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-11">
+                                    <!-- Portfolio Modal - Title-->
+                                    <h1 class="portfolio-modal-title text-secondary text-uppercase mb-3">Sign In</h1><br>
+                                    <form action="/login" method="POST" name="login">
+                                        <div class="form-group">
+                                            <label for="username" class="label-medium fs-5">Username</label>
+                                            <input type="text" name="username" class="form-control form-control-lg" id="username" aria-describedby="username" placeholder="Enter Username" onclick="IsCapsLockOn(event)" onkeyup="IsCapsLockOn(event)" autocomplete="off">
+                                        </div>
+                                        
+                                        <div class="form-group mt-2">
+                                            <label for="password" class="label-medium fs-5">Password</label>
+                                            <div class="input-group" id="show_hide_password">
+                                                <input type="password" name="password" id="passwordw"  class="form-control form-control-lg" aria-describedby="password" placeholder="Enter Password" onclick="IsCapsLockOn(event)" onkeyup="IsCapsLockOn(event)" autocomplete="off">
+                                                <div class="input-group-append" style="height: 3rem; width: 2.7rem;">
+                                                    <span class="input-group-text" style="height: 3rem; width: 2.7rem; border-top-left-radius: 0rem; border-bottom-left-radius: 0rem;" onclick="password_show_hides();">
+                                                    <i class="fas fa-eye" id="show_eye"></i>
+                                                    <i class="fas fa-eye-slash d-none" id="hide_eye"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="bg-warning">
+                                                <span class="mt-1 fs-5" id="spnWarning" style='display:none;color:red'>WARNING! Caps lock is ON.</span>
+                                            </div>
+                                        </div>
+                                        <br><br>
+                                        <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+                                        </div>
+                                        <br>
+                                        <div class="form-group">
+                                        {% if coms == None or coms == 0 %}
+                                            <p class="text-center">Sorry there is no Slot Been Save Yet.. Please wait for the Personel incharge!!!</p>
+                                        {% else %}
+                                            {% if slot == '0' %}
+                                                <p class="text-center">There is no Available Slots Open Yet, Please Wait for new Slots to Open!!</p>
+                                            {% else %}
+                                                <p class="text-center">Don't have account? <a href="/register" id="signup">Sign up here</a></p>
+                                            {% endif %}
+                                        {% endif %}
+                                            <a  href="/forgot-password" class="text-center">Forgot Password?</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Sign-in Modal -->
+    </div>
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <script src="{{ url_for('static', filename='/js/showpassword.js') }}"></script>
+    <script src="{{ url_for('static', filename='/preloader/loader.js') }}"></script>
+    <script src="{{ url_for('static', filename='/js/caplock_warning.js') }}"></script>
+</body>
+</html>

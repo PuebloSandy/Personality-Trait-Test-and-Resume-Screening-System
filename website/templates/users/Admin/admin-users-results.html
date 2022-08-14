@@ -1,0 +1,261 @@
+{% extends "/users/Admin/admin-base.html" %}
+{% block content %}
+    <div class="mobile">
+        <h1>📴</h1>
+        <h2>Unavailable for Mobile Device..</h2>
+        <h3></h3>
+    </div>
+    <div class="desktop">
+        <!--preloader-->
+        <div class="loader mt-3">
+            <div class="preloadermain">
+                <div class="precircle"></div>
+                <div class="preloader01"></div>
+                <div class="preloader02"></div>
+                <div class="preloader03"></div>
+                <div class="preloader03"></div>
+            </div>
+        </div>
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-dark sticky-top " id="navbar">
+            <div class="container">
+                <a class="navbar-brand fw-bold text-uppercase fs-3" href="/admin-homepage">Perso<small class="fw-bold fs-3" style="color: #24b194;">nality</small></a>
+                <!-- MOBILE TOGGLE -->
+                <button class="navbar-toggler m-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span><i class="fas fa-bars"></i></span>
+                </button>
+                <div class="collapse navbar-collapse text-uppercase fw-bold" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <!-- Company -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="admin-company"><span class="ml-2 mr-2">Company</span></a>
+                        </li>
+                        <!-- Company Term Area 
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="admin-term"><span class="ml-2 mr-2">Term Area</span></a>
+                        </li>-->
+                        <!-- Users -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="admin_users_account"><span class="ml-2 mr-2">Users</span></a>
+                        </li>
+                        <!-- User Result -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="admin_users_results"><span class="ml-2 mr-2">User Results</span></a>
+                        </li>
+                        <!-- logout -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <div class="dropdown mt-0">
+                                <button class="btn btn-secondary border-0 dropdown-toggle btn-nav-user" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">
+                                    <img src="{{ url_for('static', filename='/images/vector/man.png') }}" style="width: 35px; height: 30px;">
+                                </button>
+                                <ul class="dropdown-menu mr-auto dropdown-menu-end" aria-labelledby="dropdownMenuButton1" style="background-color: whitesmoke;">
+                                <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#cancelprofile"><img src="{{ url_for('static', filename='/images/vector/user-circle.png') }}" style="width: 25px; height: 20px;">  Profile</a></li>
+                                <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutmodal"><img src="{{ url_for('static', filename='/images/vector/sign-out.png') }}" style="width: 25px; height: 20px;">  Sign-out</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- END OF NAVBAR -->
+
+        <!-- Content -->
+        <div class="container mt-3 mb-4">
+            <!-- Message -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                {% if category == 'error' %}
+                <div class="alert alert-danger alter-dismissable fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% else %}
+                <div class="alert alert-success alter-dismissable fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <!-- End of Messages -->
+            <!--
+            <div class="row justify-content-between mb-5">
+                <div class="col-sm-6 rounded">
+                    <div class="card mt-2" style="background-color: #FFFF99;">
+                        <div class="row text-center mt-3 mb-3">
+                            <div class="col">
+                                <h4>Fullname</h4>
+                                <span>Agreeableness</span>
+                            </div>
+                            <div class="col">
+                                <span>{{ag}} %</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 rounded">
+                    <div class="card mt-2" style="background-color: #ffcccb;">
+                        <div class="row text-center mt-3 mb-3">
+                            <div class="col">
+                                <h4>Fullname</h4>
+                                <span>Conscientiousness</span>
+                            </div>
+                            <div class="col">
+                                <span>20 %</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 rounded">
+                    <div class="card mt-2" style="background-color: #90EE90;">
+                        <div class="row text-center mt-3 mb-3">
+                            <div class="col">
+                                <h4>Fullname</h4>
+                                <span>Extroversion</span>
+                            </div>
+                            <div class="col">
+                                <span>20 %</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 rounded">
+                    <div class="card mt-2" style="background-color: #e2b08c;">
+                        <div class="row text-center mt-3 mb-3">
+                            <div class="col">
+                                <h4>Fullname</h4>
+                                <span>Neuroticism</span>
+                            </div>
+                            <div class="col">
+                                <span>20 %</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 rounded">
+                    <div class="card mt-2" style="background-color: #FFD580;">
+                        <div class="row text-center mt-3 mb-3">
+                            <div class="col">
+                                <h4>Fullname</h4>
+                                <span>Openness</span>
+                            </div>
+                            <div class="col">
+                                <span>20 %</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 rounded">
+                    <div class="card mt-2" style="background-color: #add8e6;">
+                        <div class="row text-center mt-3 mb-3">
+                            <div class="col">
+                                <h4>Fullname</h4>
+                                <span>Number of User</span>
+                            </div>
+                            <div class="col">
+                                <span>20 %</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            -->
+            <!-- Search User Results -->
+            <div class="row">
+                <div class="card bg-light mt-1" id="results">
+                    <div class="card-body">
+                        <div class="col">
+
+                            <div class="border-bottom">
+                                <div class="d-inline p-2 pb-3 d-flex justify-content-between">
+                                    <div class="form-outline">
+                                        <p class="text-dark h4">Search for User Results</p>
+                                    </div>
+                                    <div class="text-light" align="right">
+                                        <form action="/admin_users_results" method="POST">
+                                            <div class="btn-group border rounded">
+                                                <select name="userid" class="form-select scrollable-menu text-center" role="menu" required>
+                                                    <option selected required>Search User Result..</option>
+                                                    {% for row in list %}
+                                                        {% if row == 0 %}
+                                                            <option class="text-center" value="0" disabled>There is no User Result Yet!!</option>
+                                                        {% else %}
+                                                            <option class="text-center" value="{{row.id}}">{{row.last_name}}, {{row.first_name}}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            {% if list != 0 %}
+                                                <button type="submit" class="btn btn-primary" id="myBtnDelAll"><span class="fas fa-search"> </span></button>
+                                            {% endif %}
+                                        </form>
+                                    </div> 
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <canvas class="mt-4 mb-5" id="myChart" style="height: auto; width: 500px;"></canvas>
+                                <input type='hidden' id="agree" value="{{agr}}" >
+                                <input type='hidden' id="cons" value ="{{cons}}" >
+                                <input type='hidden' id="extr" value ="{{ext}}" >
+                                <input type='hidden' id="neur" value ="{{nue}}" >
+                                <input type='hidden' id="opn" value ="{{openn}}">
+                            </div>
+                            <div class="border-top"></div>
+                            <div class="mt-5 mb-3">
+                                <canvas class="mt-4 mb-1" id="pieChart" style="height: auto; width: 370px;"></canvas>
+                                <input type='hidden' id="qua" value="{{q}}" >
+                                <input type='hidden' id="ope" value ="{{op}}" >
+                                <input type='hidden' id="supp" value ="{{sup}}" >
+                                <input type='hidden' id="pro" value ="{{pro}}" >
+                                <input type='hidden' id="data" value ="{{d}}">
+                                <input type='hidden' id="care" value ="{{c}}">
+                            </div>
+                            <div class="border-top mt-2"></div>
+                            <div class="mt-5 mb-3">
+                                <h3 class="text-center text-uppercase fw-bold border-bottom mb-3">Applicant Resume</h3>
+                                <iframe src="{{file}}" height="700" width="100%" type="application/pdf"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Logout MODAL-->
+        <div class="container container-fluid">
+            <div class="modal fade" id="logoutmodal" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Sign-out</h5></h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="/logout" method="POST">
+                            <center>
+                                <input type="hidden" name="id" id="" value="">
+
+                                <div class="modal-body">
+                                    Sign-out! 
+                                    Are you sure you want to Sign-out?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <button type="submit" name="logout" class="btn btn-success">Yes</button>
+                                </div>                     
+                            </center>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--END OF user logout MODAL-->
+    </div>
+{% endblock %} 

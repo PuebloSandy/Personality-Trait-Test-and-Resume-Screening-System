@@ -1,0 +1,376 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Personality-Icon -->
+    <link rel="icon" href="{% static 'images/personality-icon.png' %}">
+    <link rel="stylesheet" href="source/bootstrap/bootstrap-4.6.1-dist/css/bootstrap.min.css">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"> 
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500&display=swap"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- Boothstrap Table -->        
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/dataTables.bootstrap4.min.css" /> 
+    
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <link href="{% static 'css/admin-profile.css' %}" rel="stylesheet">
+
+    
+
+  </head>
+<body id="page-top">
+    <div class="mobile">
+        <h1>📴</h1>
+        <h2>Unavailable for Mobile Device..</h2>
+        <h3></h3>
+    </div>
+    <div class="desktop">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="admin-homepage.php">Perso<s class="text-primary">nality</s></a>
+            <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="{% url 'admin_company' %}">Company</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="{% url 'admin_users' %}">Users</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="{% url 'admin_users_results' %}">Users Result</a></li>
+                    <!-- notifications -->
+					<li class="nav-item mx-0 mx-lg-1 dropdown">
+						<a class="nav-link py-3 px-0 px-lg-3 rounded dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> 
+                            <?php
+                                $check_status_survey = "SELECT count(status) as total_survey FROM tblnotification WHERE status='new_survey'";
+                                $count_status_survey = mysqli_query($connection,$check_status_survey);
+                                $get_status_survey = mysqli_fetch_array($count_status_survey);
+
+                                $check_status_reg = "SELECT count(status) as total_reg FROM tblnotification WHERE status='new_reg'";
+                                $count_status_reg = mysqli_query($connection,$check_status_reg);
+                                $get_status_reg = mysqli_fetch_array($count_status_reg);
+
+                                $total_status = $get_status_survey['total_survey'] + $get_status_reg['total_reg']; 
+                            ?>
+                            <i id="icons" class="fa fa-bell"></i><span class="badge rounded-pill bg-info text-white align-text-top" id="notif-number"><?php echo $total_status;?></span>
+                            <span class="nav-label"></span>
+                        </a>
+						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <?php
+                                /* check new survey */
+                                $check_notify = mysqli_query($connection,"SELECT * FROM tblnotification ORDER BY status='new_survey'");
+                                while($sa = mysqli_fetch_array($check_notify))
+                                {
+                                    $userid = $sa['userid'];
+                                    $status = $sa['status'];
+
+                                    $select_id = mysqli_query($connection,"SELECT * FROM tbluser WHERE id='$userid'");
+                                    while($fa = mysqli_fetch_array($select_id))
+                                    {
+                                        $user_full = $fa['firstname'].' '.$fa['lastname'];
+                                        
+                                        if(mysqli_num_rows($select_id) != 0){
+                                            if($status == "new_survey"){
+                                ?>
+                                            <li>
+                                                <a data-bs-toggle="modal" data-bs-target="#manage-request" class="dropdown-item text fw-bold" onclick='location.href="admin-users-results.php"' style="cursor: pointer;"><span class="text fw-bold" ><?php echo $user_full; ?></span> Done the Survey.</a>
+                                            </li>
+                                <?php
+                                            }    
+                                        }
+                                        else{
+                                            echo'
+                                            <li>
+                                                <a data-bs-toggle="modal" data-bs-target="#manage-request" class="dropdown-item" href="#"><span class="text fw-bold" >No New Notification</span> for Survey.</a>
+                                            </li>
+                                            ';
+                                        }
+                                    }
+                                }
+                                /* check new register */
+                                $check_reg = mysqli_query($connection,"SELECT * FROM tblnotification ORDER BY status='new_reg'");
+                                while($sa = mysqli_fetch_array($check_reg))
+                                {
+                                    $userid = $sa['userid'];
+                                    $status = $sa['status'];
+
+                                    $select_id_reg = mysqli_query($connection,"SELECT * FROM tbluser WHERE id='$userid'");
+                                    while($fa = mysqli_fetch_array($select_id_reg))
+                                    {
+                                        $user_full = $fa['firstname'].' '.$fa['lastname'];
+                                        
+                                        if(mysqli_num_rows($select_id_reg) != 0){
+                                            if($status == "new_reg"){
+                                    ?>
+                                            <li>
+                                                <a data-bs-toggle="modal" data-bs-target="#manage-request" class="dropdown-item text fw-bold" onclick='location.href="admin-users.php"' style="cursor: pointer;"><span class="text fw-bold" ><?php echo $user_full;?></span> New Account.</a>
+                                            </li>
+                                    <?php
+                                            }     
+                                        }
+                                        else{
+                                            echo'
+                                            <li>
+                                                <a data-bs-toggle="modal" data-bs-target="#manage-request" class="dropdown-item" href="#"><span class="text fw-bold" >No New Notification</span> for New Account.</a>
+                                            </li>
+                                            ';
+                                        }
+                                    }
+                                }
+                            ?>
+							<!-- <li><hr class="dropdown-divider" /></li> -->		
+						</ul>
+					</li>
+                    <li class="nav-item mx-0 mx-lg-1">
+                        <div class="dropdown mt-0">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{% static 'images/Admin/source/assets/vector/man.png' %}" style="width: 35px; height: 30px;">
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                              <li><a class="dropdown-item" href="{% url 'admin_profile' %}"><img src="{% static 'images/Admin/source/assets/vector/user-circle.png' %}" style="width: 25px; height: 20px;">  Profile</a></li>
+                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutmodal"><img src="{% static 'images/Admin/source/assets/vector/sign-out.png' %}" style="width: 25px; height: 20px;">  Sign-out</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Masthead-->
+    <header class="masthead bg-light text-white text-center">
+        <div class="container d-flex align-items-center flex-column">
+            <div class="row">
+                <div class="card bg-white">
+                    <div class="card-body">
+                        <div class="col rounded">
+                            <div class="container container-fluid  p-3 mb-3 mt-1" id="myprofile">
+                                <div class="row">
+
+                                    {% if request.user.is_authenticated %}
+                                        <!-- MY PROFILE -->
+                                        <!-- HEAD -->
+                                        <div class="container" id="MY-ACCOUNT">
+                                            <p class="text mt-5 text-primary text-center fw-bold fs-1">Admin Profile</p>
+                                        </div>
+                                        <!-- LEFT SIDE -->
+                                        <div class="col-sm-4 ">
+                                            <form action="add-profile.php" method="POST" name="myForm" onsubmit="return validateForm()" enctype="multipart/form-data">
+                                                <center>
+                                                    <img src="{% static 'images/Admin/source/assets/vector/man.png' %}" class="img w-50  mb-3 rounded-circle" alt="Profile Picture" id="profilepicture">
+                                                    <br>
+                                                    <label class="mb-3" for="upload">Change Profile:</label>
+                                                    <br>
+                                                    <div class="input-group input-group-sm w-75 mb-1">
+                                                        <input type="file" name="image" class="form-control" id="upload" aria-describedby="upload" aria-label="Upload">
+                                                        <button class="btn btn-primary" type="submit" name="submit" id="upload">Upload</button>
+                                                    </div>       
+                                                </center>
+                                            </form>
+                                        </div>
+                        
+                                        <script>
+                                            function validateForm() {
+                                                var x = document.forms["myForm"]["image"].value;
+                                                if (x == "") {
+                                                    alert("You must be choose a file");
+                                                return false;
+                                                }
+                                            }
+                                        </script>
+                                        
+                                        <!-- RIGHT SIDE -->
+                                        <div class="col-sm-8 text-dark">
+                                            <div class="container">
+                                                <form action="add-profile.php" method="POST" class="row g-2">
+                                                    <!-- first line -->
+                                                    <div class="col-md-6">
+                                                        <label for="first" class="form-label">First name</label>
+                                                        <input type="text" name="firstname" class="form-control text-center" id="firstname" value="{{ request.user.firstname }}" autocomplete="off" required>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="last" class="form-label">Last name</label>
+                                                        <input type="text" name="lastname" class="form-control text-center" id="lastname" value="{{request.user.lastname}}" autocomplete="off" required>
+                                                    </div>
+                                                    <!-- second line -->
+                                                    <div class="col-md-12">
+                                                        <label for="email" class="form-label">Email</label>
+                                                        <input type="text" name="email" class="form-control text-center" id="email" value="{{ request.user.email }}" autocomplete="off">
+                                                    </div>
+
+                                                    <?php
+                                                        $getcom = mysqli_query($connection,"SELECT * FROM tblcompany WHERE id='$company'");
+
+                                                        while($da = mysqli_fetch_array($getcom))
+                                                        {
+                                                            $compid = $da['id'];
+                                                            $comname = $da['company_name'];
+                                                        }
+                                                    ?>
+                                                    
+                                                    <!-- third line -->
+                                                    <div class="col-md-12">
+                                                        <label for="company" class="form-label">Company</label>
+                                                        <select name="company" class="form-select scrollable-menu text-center" role="menu" required>
+                                                        <option selected value=""></option>
+                                                        
+                                                        </select>
+                                                    </div>
+                                                
+                                                    <!-- fourth line -->
+                                                    <div class="col-md-12">
+                                                        <label for="Contact" class="form-label">Contact</label>
+                                                        <input type="text" name="contact" class="form-control text-center" id="Contact" value="{{ request.user.contact }}" autocomplete="off" required>
+                                                    </div>
+                                                
+                                                    <span class="input-group-sm mt-3">
+                                                        <input type="submit" name="update" value="Update" class="btn btn-success">
+                                                        <a href="#" class="btn btn-info bg-info text-white m-3" data-bs-toggle="modal" data-bs-target="#changemodal" aria-disabled="true">Change Password</a>
+                                                    </span>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+        <!-- Copyright Section-->
+        <div class="copyright py-4 text-center text-white" id="copyright">
+            <div class="container"><small>Copyright &copy; Personality Traits 2021</small></div>
+        </div>
+    </div>
+
+        <!-- change pass modal -->
+        <div class="container container-fluid">
+            <div class="modal fade" id="changemodal" tabindex="-1" aria-labelledby="logoutmodalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Change Info</h5></h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                        <center>
+                        <form action="add-profile.php" method="POST">
+
+                        <div class="modal-body">
+                            <input type="hidden" name="adminid" value="<?php echo $adminid?>">
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" name="username" class="form-control text-center" id="Username" value="{{ request.user.username }}" autocomplete="off" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" name="password" class="form-control" id="admin-pass" value="{{ request.user.password }}" style=" text-align:center;" autocomplete="off" required>                          
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" onclick="myFunctions()"> Show Password
+                            </div>
+
+                            <div class="border rounded w-75 p-3 mt-2 mb-4">
+                                <p class="text-dark text-uppercase font-weight-bold">Note:</p>
+                                <p class="text-justify">If you change your username it will automatically Sign Out your Account. Make sure you save your progress first before changing your Username.</p>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                <button type="submit" name="updates" class="btn btn-success">Yes</button>
+                            </div> 
+
+                        </div> 
+                        </form>             
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       <!-- User Logout MODAL-->
+            <div class="container container-fluid">
+                <div class="modal fade" id="logoutmodal" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Sign-out</h5></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                            <form action="{% url 'logout' %}" method="POST">
+                            {% csrf_token %}
+                                <center>
+                                    <input type="hidden" name="id" id="deleteid" value="<?php echo $adminid?>">
+
+                                    <div class="modal-body">
+                                        Sign-out! 
+                                        Are you sure you want to Sign-out?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                        <button type="submit" class="btn btn-success">Yes</button>
+                                    </div>                     
+                                </center>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <!--END OF user logout MODAL-->
+
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <!-- Datatables link -->    
+    <script scr="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>    
+    <script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>  
+    <script src="https://cdn.datatables.net/1.11.0/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap.min.js"></script>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="{% static 'js/scripts.js' %}"></script>
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <!-- * *                               SB Forms JS                               * *-->
+    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    <!-- Show Password Js-->
+    <script src="{% static 'js/showpassword.js' %}"></script>
+    <script src="{% static 'js/source/js/showpassword1.js' %}"></script>
+
+    <script type="text/javascript">     
+        function isNumber(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if ( (charCode > 31 && charCode < 48) || charCode > 57) {
+                    return false;
+                }
+                return true;
+            }
+
+        function myFunctions() {
+          var x = document.getElementById("admin-pass");
+          if (x.type === "password") {
+            x.type = "text";
+          } else {
+            x.type = "password";
+          }
+        }
+      </script>
+</body>
+</html>

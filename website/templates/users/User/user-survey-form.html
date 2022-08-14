@@ -1,0 +1,616 @@
+{% extends "/users/User/user-base.html" %}
+{% block content %}
+    <div class="desktop">
+        <!--preloader-->
+        <div class="loader mt-3">
+            <div class="preloadermain">
+                <div class="precircle"></div>
+                <div class="preloader01"></div>
+                <div class="preloader02"></div>
+                <div class="preloader03"></div>
+                <div class="preloader03"></div>
+            </div>
+        </div>
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-dark sticky-top " id="navbar">
+            <div class="container">
+                <a class="navbar-brand fw-bold text-uppercase fs-3" href="#" data-toggle="modal" data-target="#cancelhome">Perso<small class="fw-bold fs-3" style="color: #24b194;">nality</small></a>
+                <!-- MOBILE TOGGLE -->
+                <button class="navbar-toggler m-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span><i class="fas fa-bars"></i></span>
+                </button>
+                <div class="collapse navbar-collapse text-uppercase fw-bold" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <!-- Test -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="#" data-toggle="modal" data-target="#canceltest"><span class="ml-2 mr-2">Test</span></a>
+                        </li>
+                        <!-- File Resume -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="#" data-toggle="modal" data-target="#canceltest"><span class="ml-2 mr-2">File</span></a>
+                        </li>
+                        <!-- Result Meaning -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="#" data-toggle="modal" data-target="#cancelresults"><span class="ml-2 mr-2">Result</span></a>
+                        </li>
+                        <!-- logout -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <div class="dropdown mt-0">
+                                <button class="btn btn-secondary border-0 dropdown-toggle btn-nav-user" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">
+                                    <img src="{{ url_for('static', filename='/images/vector/man.png') }}" style="width: 35px; height: 30px;">
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1" style="background-color: whitesmoke;">
+                                  <!--<li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#cancelprofile"><img src="{{ url_for('static', filename='/images/vector/user-circle.png') }}" style="width: 25px; height: 20px;">  Profile</a></li>-->
+                                  <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#cancellogout"><img src="{{ url_for('static', filename='/images/vector/sign-out.png') }}" style="width: 25px; height: 20px;">  Sign-out</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- END OF NAVBAR -->
+        <!-- Content -->
+        <div class="container">
+            <div class="row">
+                <!-- Message -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    {% if category == 'error' %}
+                    <div class="alert alert-danger alter-dismissable fade show mb-3" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-success alter-dismissable fade show mb-3" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                {% endif %}
+                {% endwith %}
+                <!-- End of Messages -->
+                <div class="col border bg-light mt-2 mb-5">
+                    <form action="/user_survey_form" method="POST">
+                        <div class="col bg-secondary text-white rounded">
+                            <div class="row mt-2">
+                                <div class="col sticky-bottom text-center mt-2 mb-2" align="left">
+                                    <span class="fs-5">Rate: Agree: 5 , Partially-Agree: 4 , Neutral: 3 , Partially-Disagree: 2 , Disagree: 1</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col rounded mt-2">
+                            <input type="hidden" name="userid" value="{{user.id}}">
+                            <table class="text-dark" style="margin:0 auto; width: 95%;" cellspacing="0" cellpadding="2px">
+                                <tbody>
+                                <tr class="text-uppercase font-weight-bold" id="tr">
+                                <td class="text-center fs-5">Questions</td>
+                                <td class="fs-5"><center>1</center></td>
+                                <td class="fs-5"><center>2</center></td>
+                                <td class="fs-5"><center>3</center></td>
+                                <td class="fs-5"><center>4</center></td>
+                                <td class="fs-5"><center>5</center></td>
+                                </tr>
+                                           
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I am the life of the party.</td>
+                                <td align="center"><input type="hidden" name="EXT1_E" id="EXT1_E" value="35588"><input type="radio" name="EXT1" value="1" required></td>
+                                <td align="center"><input type="radio" name="EXT1" value="2" required></td>
+                                <td align="center"><input type="radio" name="EXT1" value="3" required></td>
+                                <td align="center"><input type="radio" name="EXT1" value="4" required></td>
+                                <td align="center"><input type="radio" name="EXT1" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5"><td>I feel little concern for others.</td>
+                                <td align="center"><input type="hidden" name="AGR1_E" id="AGR1_E" value="609"><input type="radio" name="AGR1" value="1" required></td>
+                                <td align="center"><input type="radio" name="AGR1" value="2" required></td>
+                                <td align="center"><input type="radio" name="AGR1" value="3" required></td>
+                                <td align="center"><input type="radio" name="AGR1" value="4" required></td>
+                                <td align="center"><input type="radio" name="AGR1" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I am always prepared.</td>
+                                <td align="center"><input type="hidden" name="CSN1_E" id="CSN1_E" value="0"><input type="radio" name="CSN1" value="1" required></td>
+                                <td align="center"><input type="radio" name="CSN1" value="2" required></td>
+                                <td align="center"><input type="radio" name="CSN1" value="3" required></td>
+                                <td align="center"><input type="radio" name="CSN1" value="4" required></td>
+                                <td align="center"><input type="radio" name="CSN1" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I get stressed out easily.</td>
+                                <td align="center"><input type="hidden" name="EST1_E" id="EST1_E" value="0"><input type="radio" name="EST1" value="1" required></td>
+                                <td align="center"><input type="radio" name="EST1" value="2" required></td>
+                                <td align="center"><input type="radio" name="EST1" value="3" required></td>
+                                <td align="center"><input type="radio" name="EST1" value="4" required></td>
+                                <td align="center"><input type="radio" name="EST1" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I have a rich vocabulary.</td>
+                                <td align="center"><input type="hidden" name="OPN1_E" id="OPN1_E" value="0"><input type="radio" name="OPN1" value="1" required></td>
+                                <td align="center"><input type="radio" name="OPN1" value="2" required></td>
+                                <td align="center"><input type="radio" name="OPN1" value="3" required></td>
+                                <td align="center"><input type="radio" name="OPN1" value="4" required></td>
+                                <td align="center"><input type="radio" name="OPN1" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I don't talk a lot.</td>
+                                <td align="center"><input type="hidden" name="EXT2_E" id="EXT2_E" value="0"><input type="radio" name="EXT2" value="1" required></td>
+                                <td align="center"><input type="radio" name="EXT2" value="2" required></td>
+                                <td align="center"><input type="radio" name="EXT2" value="3" required></td>
+                                <td align="center"><input type="radio" name="EXT2" value="4" required></td>
+                                <td align="center"><input type="radio" name="EXT2" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I am interested in people.</td>
+                                <td align="center"><input type="hidden" name="AGR2_E" id="AGR2_E" value="0"><input type="radio" name="AGR2" value="1" required></td>
+                                <td align="center"><input type="radio" name="AGR2" value="2" required></td>
+                                <td align="center"><input type="radio" name="AGR2" value="3" required></td>
+                                <td align="center"><input type="radio" name="AGR2" value="4" required></td>
+                                <td align="center"><input type="radio" name="AGR2" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I leave my belongings around.</td>
+                                <td align="center"><input type="hidden" name="CSN2_E" id="CSN2_E" value="0"><input type="radio" name="CSN2" value="1" required></td>
+                                <td align="center"><input type="radio" name="CSN2" value="2" required></td>
+                                <td align="center"><input type="radio" name="CSN2" value="3" required></td>
+                                <td align="center"><input type="radio" name="CSN2" value="4" required></td>
+                                <td align="center"><input type="radio" name="CSN2" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I am relaxed most of the time.</td>
+                                <td align="center"><input type="hidden" name="EST2_E" id="EST2_E" value="0"><input type="radio" name="EST2" value="1" required></td>
+                                <td align="center"><input type="radio" name="EST2" value="2" required></td>
+                                <td align="center"><input type="radio" name="EST2" value="3" required></td>
+                                <td align="center"><input type="radio" name="EST2" value="4" required></td>
+                                <td align="center"><input type="radio" name="EST2" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I have difficulty understanding abstract ideas.</td>
+                                <td align="center"><input type="hidden" name="OPN2_E" id="OPN2_E" value="0"><input type="radio" name="OPN2" value="1" required></td>
+                                <td align="center"><input type="radio" name="OPN2" value="2" required></td>
+                                <td align="center"><input type="radio" name="OPN2" value="3" required></td>
+                                <td align="center"><input type="radio" name="OPN2" value="4" required></td>
+                                <td align="center"><input type="radio" name="OPN2" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I feel comfortable around people.</td>
+                                <td align="center"><input type="hidden" name="EXT3_E" id="EXT3_E" value="0"><input type="radio" name="EXT3" value="1" required></td>
+                                <td align="center"><input type="radio" name="EXT3" value="2" required></td>
+                                <td align="center"><input type="radio" name="EXT3" value="3" required></td>
+                                <td align="center"><input type="radio" name="EXT3" value="4" required></td>
+                                <td align="center"><input type="radio" name="EXT3" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I insult people.</td>
+                                <td align="center"><input type="hidden" name="AGR3_E" id="AGR3_E" value="0"><input type="radio" name="AGR3" value="1" required></td>
+                                <td align="center"><input type="radio" name="AGR3" value="2" required></td>
+                                <td align="center"><input type="radio" name="AGR3" value="3" required></td>
+                                <td align="center"><input type="radio" name="AGR3" value="4" required></td>
+                                <td align="center"><input type="radio" name="AGR3" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I pay attention to details.</td>
+                                <td align="center"><input type="hidden" name="CSN3_E" id="CSN3_E" value="0"><input type="radio" name="CSN3" value="1" required></td>
+                                <td align="center"><input type="radio" name="CSN3" value="2" required></td>
+                                <td align="center"><input type="radio" name="CSN3" value="3" required></td>
+                                <td align="center"><input type="radio" name="CSN3" value="4" required></td>
+                                <td align="center"><input type="radio" name="CSN3" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I worry about things.</td>
+                                <td align="center"><input type="hidden" name="EST3_E" id="EST3_E" value="0"><input type="radio" name="EST3" value="1" required></td>
+                                <td align="center"><input type="radio" name="EST3" value="2" required></td>
+                                <td align="center"><input type="radio" name="EST3" value="3" required></td>
+                                <td align="center"><input type="radio" name="EST3" value="4" required></td>
+                                <td align="center"><input type="radio" name="EST3" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I have a vivid imagination.</td>
+                                <td align="center"><input type="hidden" name="OPN3_E" id="OPN3_E" value="0"><input type="radio" name="OPN3" value="1" required></td>
+                                <td align="center"><input type="radio" name="OPN3" value="2" required></td>
+                                <td align="center"><input type="radio" name="OPN3" value="3" required></td>
+                                <td align="center"><input type="radio" name="OPN3" value="4" required></td>
+                                <td align="center"><input type="radio" name="OPN3" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I keep in the background.</td>
+                                <td align="center"><input type="hidden" name="EXT4_E" id="EXT4_E" value="0"><input type="radio" name="EXT4" value="1" required></td>
+                                <td align="center"><input type="radio" name="EXT4" value="2" required></td>
+                                <td align="center"><input type="radio" name="EXT4" value="3" required></td>
+                                <td align="center"><input type="radio" name="EXT4" value="4" required></td>
+                                <td align="center"><input type="radio" name="EXT4" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I sympathize with others feelings.</td>
+                                <td align="center"><input type="hidden" name="AGR4_E" id="AGR4_E" value="0"><input type="radio" name="AGR4" value="1" required></td>
+                                <td align="center"><input type="radio" name="AGR4" value="2" required></td>
+                                <td align="center"><input type="radio" name="AGR4" value="3" required></td>
+                                <td align="center"><input type="radio" name="AGR4" value="4" required></td>
+                                <td align="center"><input type="radio" name="AGR4" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I make a mess of things.</td>
+                                <td align="center"><input type="hidden" name="CSN4_E" id="CSN4_E" value="0"><input type="radio" name="CSN4" value="1" required></td>
+                                <td align="center"><input type="radio" name="CSN4" value="2" required></td>
+                                <td align="center"><input type="radio" name="CSN4" value="3" required></td>
+                                <td align="center"><input type="radio" name="CSN4" value="4" required></td>
+                                <td align="center"><input type="radio" name="CSN4" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I seldom feel blue.</td>
+                                <td align="center"><input type="hidden" name="EST4_E" id="EST4_E" value="0"><input type="radio" name="EST4" value="1" required></td>
+                                <td align="center"><input type="radio" name="EST4" value="2" required></td>
+                                <td align="center"><input type="radio" name="EST4" value="3" required></td>
+                                <td align="center"><input type="radio" name="EST4" value="4" required></td>
+                                <td align="center"><input type="radio" name="EST4" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I am not interested in abstract ideas.</td>
+                                <td align="center"><input type="hidden" name="OPN4_E" id="OPN4_E" value="0"><input type="radio" name="OPN4" value="1" required></td>
+                                <td align="center"><input type="radio" name="OPN4" value="2" required></td>
+                                <td align="center"><input type="radio" name="OPN4" value="3" required></td>
+                                <td align="center"><input type="radio" name="OPN4" value="4" required></td>
+                                <td align="center"><input type="radio" name="OPN4" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I start conversations.</td>
+                                <td align="center"><input type="hidden" name="EXT5_E" id="EXT5_E" value="0"><input type="radio" name="EXT5" value="1" required></td>
+                                <td align="center"><input type="radio" name="EXT5" value="2" required></td>
+                                <td align="center"><input type="radio" name="EXT5" value="3" required></td>
+                                <td align="center"><input type="radio" name="EXT5" value="4" required></td>
+                                <td align="center"><input type="radio" name="EXT5" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I am not interested in other people's problems.</td>
+                                <td align="center"><input type="hidden" name="AGR5_E" id="AGR5_E" value="0"><input type="radio" name="AGR5" value="1" required></td>
+                                <td align="center"><input type="radio" name="AGR5" value="2" required></td>
+                                <td align="center"><input type="radio" name="AGR5" value="3" required></td>
+                                <td align="center"><input type="radio" name="AGR5" value="4" required></td>
+                                <td align="center"><input type="radio" name="AGR5" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I get chores done right away.</td>
+                                <td align="center"><input type="hidden" name="CSN5_E" id="CSN5_E" value="0"><input type="radio" name="CSN5" value="1" required></td>
+                                <td align="center"><input type="radio" name="CSN5" value="2" required></td>
+                                <td align="center"><input type="radio" name="CSN5" value="3" required></td>
+                                <td align="center"><input type="radio" name="CSN5" value="4" required></td>
+                                <td align="center"><input type="radio" name="CSN5" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I am easily disturbed.</td>
+                                <td align="center"><input type="hidden" name="EST5_E" id="EST5_E" value="0"><input type="radio" name="EST5" value="1" required></td>
+                                <td align="center"><input type="radio" name="EST5" value="2" required></td>
+                                <td align="center"><input type="radio" name="EST5" value="3" required></td>
+                                <td align="center"><input type="radio" name="EST5" value="4" required></td>
+                                <td align="center"><input type="radio" name="EST5" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I have excellent ideas.</td>
+                                <td align="center"><input type="hidden" name="OPN5_E" id="OPN5_E" value="0"><input type="radio" name="OPN5" value="1" required></td>
+                                <td align="center"><input type="radio" name="OPN5" value="2" required></td>
+                                <td align="center"><input type="radio" name="OPN5" value="3" required></td>
+                                <td align="center"><input type="radio" name="OPN5" value="4" required></td>
+                                <td align="center"><input type="radio" name="OPN5" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I have little to say.</td>
+                                <td align="center"><input type="hidden" name="EXT6_E" id="EXT6_E" value="0"><input type="radio" name="EXT6" value="1" required></td>
+                                <td align="center"><input type="radio" name="EXT6" value="2" required></td>
+                                <td align="center"><input type="radio" name="EXT6" value="3" required></td>
+                                <td align="center"><input type="radio" name="EXT6" value="4" required></td>
+                                <td align="center"><input type="radio" name="EXT6" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I have a soft heart.</td>
+                                <td align="center"><input type="hidden" name="AGR6_E" id="AGR6_E" value="0"><input type="radio" name="AGR6" value="1" required></td>
+                                <td align="center"><input type="radio" name="AGR6" value="2" required></td>
+                                <td align="center"><input type="radio" name="AGR6" value="3" required></td>
+                                <td align="center"><input type="radio" name="AGR6" value="4" required></td>
+                                <td align="center"><input type="radio" name="AGR6" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I often forget to put things back in their proper place.</td>
+                                <td align="center"><input type="hidden" name="CSN6_E" id="CSN6_E" value="0"><input type="radio" name="CSN6" value="1" required></td>
+                                <td align="center"><input type="radio" name="CSN6" value="2" required></td>
+                                <td align="center"><input type="radio" name="CSN6" value="3" required></td>
+                                <td align="center"><input type="radio" name="CSN6" value="4" required></td>
+                                <td align="center"><input type="radio" name="CSN6" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I get upset easily.</td>
+                                <td align="center"><input type="hidden" name="EST6_E" id="EST6_E" value="0"><input type="radio" name="EST6" value="1" required></td>
+                                <td align="center"><input type="radio" name="EST6" value="2" required></td>
+                                <td align="center"><input type="radio" name="EST6" value="3" required></td>
+                                <td align="center"><input type="radio" name="EST6" value="4" required></td>
+                                <td align="center"><input type="radio" name="EST6" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I do not have a good imagination.</td>
+                                <td align="center"><input type="hidden" name="OPN6_E" id="OPN6_E" value="0"><input type="radio" name="OPN6" value="1" required></td>
+                                <td align="center"><input type="radio" name="OPN6" value="2" required></td>
+                                <td align="center"><input type="radio" name="OPN6" value="3" required></td>
+                                <td align="center"><input type="radio" name="OPN6" value="4" required></td>
+                                <td align="center"><input type="radio" name="OPN6" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I talk to a lot of different people at parties.</td>
+                                <td align="center"><input type="hidden" name="EXT7_E" id="EXT7_E" value="0"><input type="radio" name="EXT7" value="1" required></td>
+                                <td align="center"><input type="radio" name="EXT7" value="2" required></td>
+                                <td align="center"><input type="radio" name="EXT7" value="3" required></td>
+                                <td align="center"><input type="radio" name="EXT7" value="4" required></td>
+                                <td align="center"><input type="radio" name="EXT7" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I am not really interested in others.</td>
+                                <td align="center"><input type="hidden" name="AGR7_E" id="AGR7_E" value="0"><input type="radio" name="AGR7" value="1" required></td>
+                                <td align="center"><input type="radio" name="AGR7" value="2" required></td>
+                                <td align="center"><input type="radio" name="AGR7" value="3" required></td>
+                                <td align="center"><input type="radio" name="AGR7" value="4" required></td>
+                                <td align="center"><input type="radio" name="AGR7" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I like order.</td>
+                                <td align="center"><input type="hidden" name="CSN7_E" id="CSN7_E" value="0"><input type="radio" name="CSN7" value="1" required></td>
+                                <td align="center"><input type="radio" name="CSN7" value="2" required></td>
+                                <td align="center"><input type="radio" name="CSN7" value="3" required></td>
+                                <td align="center"><input type="radio" name="CSN7" value="4" required></td>
+                                <td align="center"><input type="radio" name="CSN7" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I change my mood a lot.</td>
+                                <td align="center"><input type="hidden" name="EST7_E" id="EST7_E" value="0"><input type="radio" name="EST7" value="1" required></td>
+                                <td align="center"><input type="radio" name="EST7" value="2" required></td>
+                                <td align="center"><input type="radio" name="EST7" value="3" required></td>
+                                <td align="center"><input type="radio" name="EST7" value="4" required></td>
+                                <td align="center"><input type="radio" name="EST7" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I am quick to understand things.</td>
+                                <td align="center"><input type="hidden" name="OPN7_E" id="OPN7_E" value="0"><input type="radio" name="OPN7" value="1" required></td>
+                                <td align="center"><input type="radio" name="OPN7" value="2" required></td>
+                                <td align="center"><input type="radio" name="OPN7" value="3" required></td>
+                                <td align="center"><input type="radio" name="OPN7" value="4" required></td>
+                                <td align="center"><input type="radio" name="OPN7" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5"><td>I don't like to draw attention to myself.</td>
+                                <td align="center"><input type="hidden" name="EXT8_E" id="EXT8_E" value="0"><input type="radio" name="EXT8" value="1" required></td>
+                                <td align="center"><input type="radio" name="EXT8" value="2" required></td>
+                                <td align="center"><input type="radio" name="EXT8" value="3" required></td>
+                                <td align="center"><input type="radio" name="EXT8" value="4" required></td>
+                                <td align="center"><input type="radio" name="EXT8" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I take time out for others.</td>
+                                <td align="center"><input type="hidden" name="AGR8_E" id="AGR8_E" value="0"><input type="radio" name="AGR8" value="1" required></td>
+                                <td align="center"><input type="radio" name="AGR8" value="2" required></td>
+                                <td align="center"><input type="radio" name="AGR8" value="3" required></td>
+                                <td align="center"><input type="radio" name="AGR8" value="4" required></td>
+                                <td align="center"><input type="radio" name="AGR8" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I shirk my duties.</td>
+                                <td align="center"><input type="hidden" name="CSN8_E" id="CSN8_E" value="0"><input type="radio" name="CSN8" value="1" required></td>
+                                <td align="center"><input type="radio" name="CSN8" value="2" required></td>
+                                <td align="center"><input type="radio" name="CSN8" value="3" required></td>
+                                <td align="center"><input type="radio" name="CSN8" value="4" required></td>
+                                <td align="center"><input type="radio" name="CSN8" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I have frequent mood swings.</td>
+                                <td align="center"><input type="hidden" name="EST8_E" id="EST8_E" value="0"><input type="radio" name="EST8" value="1" required></td>
+                                <td align="center"><input type="radio" name="EST8" value="2" required></td>
+                                <td align="center"><input type="radio" name="EST8" value="3" required></td>
+                                <td align="center"><input type="radio" name="EST8" value="4" required></td>
+                                <td align="center"><input type="radio" name="EST8" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I use difficult words.</td>
+                                <td align="center"><input type="hidden" name="OPN8_E" id="OPN8_E" value="0"><input type="radio" name="OPN8" value="1" required></td>
+                                <td align="center"><input type="radio" name="OPN8" value="2" required></td>
+                                <td align="center"><input type="radio" name="OPN8" value="3" required></td>
+                                <td align="center"><input type="radio" name="OPN8" value="4" required></td>
+                                <td align="center"><input type="radio" name="OPN8" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I don't mind being the center of attention.</td>
+                                <td align="center"><input type="hidden" name="EXT9_E" id="EXT9_E" value="0"><input type="radio" name="EXT9" value="1" required></td>
+                                <td align="center"><input type="radio" name="EXT9" value="2" required></td>
+                                <td align="center"><input type="radio" name="EXT9" value="3" required></td>
+                                <td align="center"><input type="radio" name="EXT9" value="4" required></td>
+                                <td align="center"><input type="radio" name="EXT9" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I feel others emotions.</td>
+                                <td align="center"><input type="hidden" name="AGR9_E" id="AGR9_E" value="0"><input type="radio" name="AGR9" value="1" required></td>
+                                <td align="center"><input type="radio" name="AGR9" value="2" required></td>
+                                <td align="center"><input type="radio" name="AGR9" value="3" required></td>
+                                <td align="center"><input type="radio" name="AGR9" value="4" required></td>
+                                <td align="center"><input type="radio" name="AGR9" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I follow a schedule.</td>
+                                <td align="center"><input type="hidden" name="CSN9_E" id="CSN9_E" value="0"><input type="radio" name="CSN9" value="1" required></td>
+                                <td align="center"><input type="radio" name="CSN9" value="2" required></td>
+                                <td align="center"><input type="radio" name="CSN9" value="3" required></td>
+                                <td align="center"><input type="radio" name="CSN9" value="4" required></td>
+                                <td align="center"><input type="radio" name="CSN9" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I get irritated easily.</td>
+                                <td align="center"><input type="hidden" name="EST9_E" id="EST9_E" value="0"><input type="radio" name="EST9" value="1" required></td>
+                                <td align="center"><input type="radio" name="EST9" value="2" required></td>
+                                <td align="center"><input type="radio" name="EST9" value="3" required></td>
+                                <td align="center"><input type="radio" name="EST9" value="4" required></td>
+                                <td align="center"><input type="radio" name="EST9" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I spend time reflecting on things.</td>
+                                <td align="center"><input type="hidden" name="OPN9_E" id="OPN9_E" value="0"><input type="radio" name="OPN9" value="1" required></td>
+                                <td align="center"><input type="radio" name="OPN9" value="2" required></td>
+                                <td align="center"><input type="radio" name="OPN9" value="3" required></td>
+                                <td align="center"><input type="radio" name="OPN9" value="4" required></td>
+                                <td align="center"><input type="radio" name="OPN9" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I am quiet around strangers.</td>
+                                <td align="center"><input type="hidden" name="EXT10_E" id="EXT10_E" value="0"><input type="radio" name="EXT10" value="1" required></td>
+                                <td align="center"><input type="radio" name="EXT10" value="2" required></td>
+                                <td align="center"><input type="radio" name="EXT10" value="3" required></td>
+                                <td align="center"><input type="radio" name="EXT10" value="4" required></td>
+                                <td align="center"><input type="radio" name="EXT10" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I make people feel at ease.</td>
+                                <td align="center"><input type="hidden" name="AGR10_E" id="AGR10_E" value="0"><input type="radio" name="AGR10" value="1" required></td>
+                                <td align="center"><input type="radio" name="AGR10" value="2" required></td>
+                                <td align="center"><input type="radio" name="AGR10" value="3" required></td>
+                                <td align="center"><input type="radio" name="AGR10" value="4" required></td>
+                                <td align="center"><input type="radio" name="AGR10" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I am exacting in my work.</td>
+                                <td align="center"><input type="hidden" name="CSN10_E" id="CSN10_E" value="0"><input type="radio" name="CSN10" value="1" required></td>
+                                <td align="center"><input type="radio" name="CSN10" value="2" required></td>
+                                <td align="center"><input type="radio" name="CSN10" value="3" required></td>
+                                <td align="center"><input type="radio" name="CSN10" value="4" required></td>
+                                <td align="center"><input type="radio" name="CSN10" value="5" required></td>
+                                </tr>
+                                <tr class="fs-5" style="background-color:#E0E0BC"><td>I often feel blue.</td>
+                                <td align="center"><input type="hidden" name="EST10_E" id="EST10_E" value="0"><input type="radio" name="EST10" value="1" required></td>
+                                <td align="center"><input type="radio" name="EST10" value="2" required></td>
+                                <td align="center"><input type="radio" name="EST10" value="3" required></td>
+                                <td align="center"><input type="radio" name="EST10" value="4" required></td>
+                                <td align="center"><input type="radio" name="EST10" value="5" required></td>
+                                </tr>
+                                <tr><td class="fs-5">I am full of ideas.</td>
+                                <td align="center"><input type="hidden" name="OPN10_E" id="OPN10_E" value="0"><input type="radio" name="OPN10" value="1" required></td>
+                                <td align="center"><input type="radio" name="OPN10" value="2" required></td>
+                                <td align="center"><input type="radio" name="OPN10" value="3" required></td>
+                                <td align="center"><input type="radio" name="OPN10" value="4" required></td>
+                                <td align="center"><input type="radio" name="OPN10" value="5" required></td>
+                                </tr>         
+                                <tr>
+                                <td colspan="6" align="right">
+                                <br>
+                                <!--
+                                <input style="font-size:135%;" type="submit" value="Continue" onclick="return submitcheck();">
+                                <input type="hidden" name="onblurs" id="onblurs" value="3">
+                                -->
+                                </td>
+                                </tr>
+                                </tbody>
+                                </table>
+        
+                            <div class="justify-content-center mb-5" align="center">
+                                <input type="hidden" name="onblurs" id="onblurs" value="3">
+                                <button type="submit" class="btn btn-success btn-lg" onclick="return submitcheck();">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- User Logout MODAL-->
+        <div class="container container-fluid">
+            <div class="modal fade" id="logoutmodal" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Sign-out</h5></h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="manageData.php" method="POST">
+                            <center>
+                                <input type="hidden" name="id" id="deleteid" value="<?php echo $userid?>">
+
+                                <div class="modal-body">
+                                    Sign-out! 
+                                    Are you sure you want to Sign-out?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <button type="submit" name="logout" class="btn btn-success">Yes</button>
+                                </div>                     
+                            </center>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--END OF user logout MODAL-->
+
+        <!-- Cancel Quiz MODAL-->
+        <div class="container container-fluid">
+            <div class="modal fade" id="cancelhome" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Cancel Survey</h5></h5>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="/user_survey_form_restart" method="POST">
+                            <center>
+                            <input type="hidden" name="traitid" value="{{trait.id}}">
+
+                                <div class="modal-body">
+                                    Are you sure you want to cancel this Survey?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <button type="submit" name="restart_home" class="btn btn-success">Yes</button>
+                                </div>                     
+                            </center>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--END OF Cancel Quiz MODAL-->
+
+        <!-- Cancel Quiz MODAL-->
+        <div class="container container-fluid">
+            <div class="modal fade" id="canceltest" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Cancel Survey</h5></h5>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="/user_survey_form_restart" method="POST">
+                            <center>
+                            <input type="hidden" name="traitid" value="{{trait.id}}">
+
+                                <div class="modal-body">
+                                    Are you sure you want to cancel this Survey?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <button type="submit" name="restart_test" class="btn btn-success">Yes</button>
+                                </div>                     
+                            </center>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--END OF Cancel Quiz MODAL-->
+
+        <!-- Cancel Quiz MODAL-->
+        <div class="container container-fluid">
+            <div class="modal fade" id="cancelresults" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Cancel Survey</h5></h5>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="/user_survey_form_restart" method="POST">
+                            <center>
+                            <input type="hidden" name="traitid" value="{{trait.id}}">
+
+                                <div class="modal-body">
+                                    Are you sure you want to cancel this Survey?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <button type="submit" name="restart_results" class="btn btn-success">Yes</button>
+                                </div>                     
+                            </center>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--END OF Cancel Quiz MODAL-->
+
+        <!-- Cancel Quiz MODAL-->
+        <div class="container container-fluid">
+            <div class="modal fade" id="cancellogout" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Cancel Survey</h5></h5>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="/user_survey_form_restart" method="POST">
+                            <center>
+                            <input type="hidden" name="traitid" value="{{trait.id}}">
+
+                                <div class="modal-body">
+                                    Are you sure you want to cancel this Survey?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <button type="submit" name="restart_prof" class="btn btn-success">Yes</button>
+                                </div>                     
+                            </center>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--END OF Cancel Quiz MODAL-->
+    </div>
+    {% endblock %}

@@ -1,0 +1,270 @@
+{% extends "/users/User/user-base.html" %}
+{% block content %}
+    <div class="desktop">
+        <!--preloader-->
+        <div class="loader mt-3">
+            <div class="preloadermain">
+                <div class="precircle"></div>
+                <div class="preloader01"></div>
+                <div class="preloader02"></div>
+                <div class="preloader03"></div>
+                <div class="preloader03"></div>
+            </div>
+        </div>
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-dark sticky-top " id="navbar">
+            <div class="container">
+                <a class="navbar-brand fw-bold text-uppercase fs-3" href="/user-homepage">Perso<small class="fw-bold fs-3" style="color: #24b194;">nality</small></a>
+                <!-- MOBILE TOGGLE -->
+                <button class="navbar-toggler m-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span><i class="fas fa-bars"></i></span>
+                </button>
+                <div class="collapse navbar-collapse text-uppercase fw-bold" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <!-- Test -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="user_test_form"><span class="ml-2 mr-2">Test</span></a>
+                        </li>
+                        <!-- File Resume -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="user_files_resume"><span class="ml-2 mr-2">File</span></a>
+                        </li>
+                        <!-- Result Meaning -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-2 px-0 px-lg-3 fs-6 text-white rounded" href="user_result_meaning"><span class="ml-2 mr-2">Result</span></a>
+                        </li>
+                        <!-- logout -->
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <div class="dropdown mt-0">
+                                <button class="btn btn-secondary border-0 dropdown-toggle btn-nav-user" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">
+                                    <img src="{{ url_for('static', filename='/images/vector/man.png') }}" style="width: 35px; height: 30px;">
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1" style="background-color: whitesmoke;">
+                                  <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#cancelprofile"><img src="{{ url_for('static', filename='/images/vector/user-circle.png') }}" style="width: 25px; height: 20px;">  Profile</a></li>
+                                  <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutmodal"><img src="{{ url_for('static', filename='/images/vector/sign-out.png') }}" style="width: 25px; height: 20px;">  Sign-out</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- END OF NAVBAR -->
+        <!-- Content -->
+        <div class="container mt-5">
+            <div class="row">
+                <!-- Message -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    {% if category == 'error' %}
+                    <div class="alert alert-danger alter-dismissable fade show mt-2 mb-3" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-success alter-dismissable fade show mt-2 mb-3" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                {% endif %}
+                {% endwith %}
+                <!-- End of Messages -->
+                <div class="col border bg-light mt-3 mb-5">
+                    <!-- Bar Graph user results-->
+                    <div class="container-main text-center text-dark mb-4">
+                        <div class="factor mt-5 mb-5">
+                        <h3 class="text-uppercase mt-3 mb-3" id="meaning-header" style="cursor: default;">Trait Description</h3>
+                        <table class="mt-5 mb-5" id="I" width="100%" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td class="fs-5" style="background-color: #22C122;" width="20%" align="center">Factor I</td>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_II" onclick="document.getElementById('I').style.display='none'; document.getElementById('II').style.display='table';">Factor II</a>
+                                    </td>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_III" onclick="document.getElementById('I').style.display='none'; document.getElementById('III').style.display='table';">Factor III</a>
+                                    </td>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_IV" onclick="document.getElementById('I').style.display='none'; document.getElementById('IV').style.display='table';">Factor IV</a>
+                                    </td>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_V" onclick="document.getElementById('I').style.display='none'; document.getElementById('V').style.display='table';">Factor V</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" style="border: 2px solid #22C122; padding: 5px;">
+                                        <p class="fs-4 mt-3 mb-3">
+                                            <b>Factor I</b>
+                                            was labelled as
+                                            <b>Extroversion</b>
+                                            by the developers of the IPIP-BFFM. Factor I is sometimes given other names, such as Surgency or Positive Emotionality.
+                                        </p>
+                                        <p class="fs-4 mt-3 mb-4">
+                                            Individuals who score high on Factor I one are outgoing and social. Individuals who score low tend to be shut ins.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="mt-5 mb-5" id="II" style="display: none;" width="100%" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_I" onclick="document.getElementById('II').style.display='none'; document.getElementById('I').style.display='table';">Factor I</a>
+                                    </td>
+                                    <td class="fs-5" style="background-color: #B22222;" width="20%" align="center">Factor II</td>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_III" onclick="document.getElementById('II').style.display='none'; document.getElementById('III').style.display='table';">Factor III</a>
+                                    </td>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_IV" onclick="document.getElementById('II').style.display='none'; document.getElementById('IV').style.display='table';">Factor IV</a>
+                                    </td>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_V" onclick="document.getElementById('II').style.display='none'; document.getElementById('V').style.display='table';">Factor V</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" style="border: 2px solid #B22222; padding: 5px;">
+                                        <p class="fs-4 mt-3 mb-3">
+                                            <b>Factor II</b>
+                                            was labelled as
+                                            <b>Emotional Stability</b>
+                                            Factor II is often referred to by other names, such as Neuroticism or Negative Emotionality (in these two cases interpretations are inverted, as Neruoticism and Negative Emotionality can be though of as the opposite of Emotional Stability).
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="mt-5 mb-5" id="III" style="display: none;" width="100%" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_I" onclick="document.getElementById('III').style.display='none'; document.getElementById('I').style.display='table';">Factor I</a>
+                                    </td>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_II" onclick="document.getElementById('III').style.display='none'; document.getElementById('II').style.display='table';">Factor II</a>
+                                    </td>
+                                    <td class="fs-5" style="background-color: #CD853F;" width="20%" align="center">Factor III</td>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_IV" onclick="document.getElementById('III').style.display='none'; document.getElementById('IV').style.display='table';">Factor IV</a>
+                                    </td>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_V" onclick="document.getElementById('III').style.display='none'; document.getElementById('V').style.display='table';">Factor V</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" style="border: 2px solid #CD853F; padding: 5px;">
+                                        <p class="fs-4 mt-5 mb-5">
+                                            <b>Factor III</b>
+                                            was labelled as
+                                            <b>Agreeableness</b>
+                                            A person high in agreeableness is friendly and optimistic. Low scorers are critical and aggressive.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="mt-5 mb-5" id="IV" style="display: none;" width="100%" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_I" onclick="document.getElementById('IV').style.display='none'; document.getElementById('I').style.display='table';">Factor I</a>
+                                    </td>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_II" onclick="document.getElementById('IV').style.display='none'; document.getElementById('II').style.display='table';">Factor II</a>
+                                    </td>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_III" onclick="document.getElementById('IV').style.display='none'; document.getElementById('III').style.display='table';">Factor III</a>
+                                    </td>
+                                    <td class="fs-5" style="background-color: #6A5ACD;" width="20%" align="center">Factor IV</td>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_V" onclick="document.getElementById('IV').style.display='none'; document.getElementById('V').style.display='table';">Factor V</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" style="border: 2px solid #6A5ACD; padding: 5px;">
+                                        <p class="fs-4 mt-5 mb-5">
+                                            <b>Factor IV</b>
+                                            was labelled as
+                                            <b>Conscientiousness</b>
+                                            Individuals who score high on this factor are careful and diligent. Low scorers are impulsive and disorganized.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="mt-5 mb-5" id="V" style="display: none;" width="100%" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_I" onclick="document.getElementById('V').style.display='none'; document.getElementById('I').style.display='table';">Factor I</a>
+                                    </td>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_II" onclick="document.getElementById('V').style.display='none'; document.getElementById('II').style.display='table';">Factor II</a>
+                                    </td>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_III" onclick="document.getElementById('V').style.display='none'; document.getElementById('III').style.display='table';">Factor III</a>
+                                    </td>
+                                    <td class="fs-5" width="20%" align="center">
+                                        <a href="#_IV" onclick="document.getElementById('V').style.display='none'; document.getElementById('IV').style.display='table';">Factor IV</a>
+                                    </td>
+                                    <td class="fs-5" style="background-color: #ADFF2F;" width="20%" align="center">Factor V</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" style="border: 2px solid #ADFF2F; padding: 5px;">
+                                        <p class="fs-4 mt-3 mb-3">
+                                            <b>Factor V</b>
+                                            was labelled as
+                                            <b>Intellect/Imagination</b>
+                                            This factor is also often called Openness to Experience.
+                                        </p>
+                                        <p class="fs-4 mt-3 mb-5">
+                                            People who score low tend to be traditional and conventional.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Logout MODAL-->
+        <div class="container container-fluid">
+            <div class="modal fade" id="logoutmodal" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Sign-out</h5></h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="/logout" method="POST">
+                            <center>
+                                <input type="hidden" name="id" value="{{user.id}}">
+
+                                <div class="modal-body">
+                                    Sign-out! 
+                                    Are you sure you want to Sign-out?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <button type="submit" class="btn btn-success">Yes</button>
+                                </div>                     
+                            </center>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--END OF user logout MODAL-->
+    </div>
+{% endblock %}

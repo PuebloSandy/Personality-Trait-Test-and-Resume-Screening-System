@@ -1,0 +1,97 @@
+ <!-- DELETE User MODAL-->
+    <div class="container container-fluid">
+          <div class="modal fade" id="deletemodal{{users.id}}" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete User</h5></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                       <form action="{% url 'admin_delete_user' %}" method="POST">
+                        {% csrf_token %}
+                          <center class="text-dark">
+                              <input type="hidden" name="id" value="{{users.id}}">
+
+                              <div class="modal-body">
+                                  All data will be deleted! 
+                                  Are you sure you want to delete this User?
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                  <button type="submit" name="delete_user" class="btn btn-success">Yes</button>
+                              </div>                     
+                          </center>
+                      </form>
+                  </div>
+              </div>
+          </div>
+	  <!--END OF DELETE MODAL-->
+
+    <!-- Edit User Modal -->
+      <div class="modal fade" id="editmodal{{users.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog  text-dark" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'admin_update_user' %}" method="POST">
+            {% csrf_token %}
+
+                <div class="modal-body">
+                    <input type="hidden" name="id" value="{{users.id}}" id="userid"/>
+
+                    <div class="form-group">
+                        <label class="float-left">Firstname</label>
+                        <input type="text" name="firstname" id="fname" class="form-control text-center" placeholder="Enter Firstname"  autocomplete="off" value="{{users.firstname}}">
+                    </div>
+                    <div class="form-group">
+                        <label class="float-left">Lastname</label>
+                        <input type="text" name="lastname" id="lname" class="form-control text-center" placeholder="Enter Lastname"  autocomplete="off" value="{{users.lastname}}">
+                    </div>  
+                    <div class="form-group">
+                        <label class="float-left">Contact No.</label>
+                        <input type="number" name="contact" id="con" onkeypress="return isNumber(event)" onpaste="return false;" class="form-control text-center" placeholder="Enter Contact No."  autocomplete="off" value="{{users.contact}}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="#select-value" class="form-label float-left">Gender</label>
+                        <select class="form-control custom-select p-1 text-center" name="gender" id="gen">
+                            <option value="{{users.gender}}" selected>{{users.gender}}</option>
+                            {% if  users.gender == "Female" %}
+                                <option value="Male" class="text-center" value="Male">Male</option>
+                            {% else %}
+                                <option value="Female" class="text-center" value="Female">Female</option>  
+                            {% endif %}
+                        </select>	
+                    </div> 
+
+                    <div class="form-group">
+                        <label class="float-left">Username</label>
+                        <input type="text" name="username" id="user" class="form-control text-center" placeholder="Enter Username"  autocomplete="off" required/ value="{{users.username}}">
+                    </div>  
+                    {% comment %}<div class="form-group">
+                      <label class="float-left" >Password</label>
+                      <input type="password" name="password" class="form-control text-center" id="pass" placeholder="Enter Password"  autocomplete="off" required/ value="{{users.password}}">
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <div class="checkbox" align="center">
+                                <label>
+                                    <input type="checkbox" name="remember" onclick="myPass2()"> showpassword
+                                </label>
+                            </div>
+                        </div>
+                    </div>{% endcomment %}
+
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="submit" name="update_user" class="btn btn-success">Save</button>
+                  </div>
+                </div> 
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- End of Edit User Modal -->
